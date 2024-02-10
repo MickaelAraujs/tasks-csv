@@ -1,11 +1,11 @@
 export function getInvalidParameterErrors(parameters) {
-    const invalidParameters = []
+    return Object.entries(parameters).reduce((invalidParameters, parameter) => {
+        const [key, value] = parameter
 
-    Object.entries(parameters).forEach(([key, value]) => {
-        if (!value) invalidParameters.push({ key, value })
-    })
+        if (!value) {
+            invalidParameters.push({ message: `Parameter ${key} is required` })
+        }
 
-    return invalidParameters.map(invalidParameter => ({
-        message: `Parameter ${invalidParameter.key} is required`
-    }))
+        return invalidParameters
+    }, [])
 }
