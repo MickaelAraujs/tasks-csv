@@ -1,5 +1,8 @@
 import { randomUUID } from 'node:crypto'
 import { getInvalidParameterErrors } from '../utils/get-invalid-parameter-errors.js'
+import { Database } from '../persistance/database.js'
+
+const database = new Database()
 
 class TaskController {
     index(request, response) {
@@ -33,7 +36,7 @@ class TaskController {
             completed_at: null,
         }
 
-        console.log(task)
+        database.insert('tasks', task)
 
         return response.writeHead(201).end()
     }
