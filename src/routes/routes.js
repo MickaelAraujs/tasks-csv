@@ -17,4 +17,9 @@ export const routes = [
         path: buildRoutePath('/tasks/:id'),
         handler: (request, response) => taskController.update(request, response),
     },
+    {
+        method: 'DELETE',
+        path: buildRoutePath('/tasks/:id'),
+        handler: (request, response) => taskController.delete(request, response),
+    },
 ]

@@ -73,18 +73,31 @@ class TaskController {
 
         if (!task) return response.writeHead(404).end(JSON.stringify({
             error: true,
-            message: 'Task not found',
+            message: 'Task was not found',
         }))
 
         task.title = title ?? task.title
         task.description = description ?? task.description
         task.updated_at = getNow()
+
+        database.update('tasks', id, task)
         
         return response.writeHead(204).end()
     }
 
     delete(request, response) {
+        const { id } = request.params
 
+        const task = database.selectBy('tasks', id)
+
+        if (!task) return response.writeHead(404).end(JSON.stringify({
+            error: true,
+            message: 'Task was not found',
+        }))
+
+        database.delete('tasks', id)
+
+        return response.writeHead(204).end()
     }
 
     complete(request, response) {
