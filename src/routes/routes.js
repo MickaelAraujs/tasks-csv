@@ -4,12 +4,12 @@ import taskController from "../controllers/task-controller.js"
 export const routes = [
     {
         method: 'GET',
-        path: buildRoutePath('/tasks/:id'),
+        path: buildRoutePath('/tasks'),
         handler: (request, response) => taskController.index(request, response),
     },
     {
         method: 'POST',
-        path: buildRoutePath('/tasks/:id'),
+        path: buildRoutePath('/tasks'),
         handler: (request, response) => taskController.create(request, response),
     },
     
