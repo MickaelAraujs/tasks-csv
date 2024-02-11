@@ -101,7 +101,24 @@ class TaskController {
     }
 
     complete(request, response) {
+        const { id } = request.params
 
+        const task = database.selectBy('tasks', id)
+
+        if (!task) return response.writeHead(404).end(JSON.stringify({
+            error: true,
+            message: 'Task was not found',
+        }))
+
+        task.completed_at = task.completed_at === null 
+            ? getNow() 
+            : null
+
+        database.update('tasks', id, task)
+
+        return response.writeHead(200).end(JSON.stringify({
+            task,
+        }))
     }
 }
 

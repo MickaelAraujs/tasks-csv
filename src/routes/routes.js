@@ -22,4 +22,9 @@ export const routes = [
         path: buildRoutePath('/tasks/:id'),
         handler: (request, response) => taskController.delete(request, response),
     },
+    {
+        method: 'PATCH',
+        path: buildRoutePath('/tasks/:id/complete'),
+        handler: (request, response) => taskController.complete(request, response),
+    }
 ]
