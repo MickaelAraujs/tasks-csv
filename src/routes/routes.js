@@ -12,5 +12,9 @@ export const routes = [
         path: buildRoutePath('/tasks'),
         handler: (request, response) => taskController.create(request, response),
     },
-    
+    {
+        method: 'PUT',
+        path: buildRoutePath('/tasks/:id'),
+        handler: (request, response) => taskController.update(request, response),
+    },
 ]

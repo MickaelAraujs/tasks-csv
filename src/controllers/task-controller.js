@@ -1,6 +1,7 @@
 import { randomUUID } from 'node:crypto'
 import { getInvalidParameterErrors } from '../utils/get-invalid-parameter-errors.js'
 import { Database } from '../persistance/database.js'
+import { getNow } from '../utils/get-now.js'
 
 const database = new Database()
 
@@ -39,7 +40,7 @@ class TaskController {
             description,
         } = request.body
 
-        const now = new Date().toISOString()
+        const now = getNow()
 
         const task = {
             id: randomUUID(),
@@ -56,7 +57,30 @@ class TaskController {
     }
 
     update(request, response) {
+        const {
+            title,
+            description,
+        } = request.body
 
+        if (!title && !description) return response.writeHead(400).end(JSON.stringify({
+            error: true,
+            message: 'Title and Description params are required',
+        }))
+
+        const { id } = request.params
+
+        const task = database.selectBy('tasks', id)
+
+        if (!task) return response.writeHead(404).end(JSON.stringify({
+            error: true,
+            message: 'Task not found',
+        }))
+
+        task.title = title ?? task.title
+        task.description = description ?? task.description
+        task.updated_at = getNow()
+        
+        return response.writeHead(204).end()
     }
 
     delete(request, response) {

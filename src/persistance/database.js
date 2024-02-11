@@ -31,6 +31,12 @@ export class Database {
         })
     }
 
+    selectBy(table, id) {
+        const rows = this.#database[table] ?? []
+
+        return rows.find(row => row.id === id)
+    }   
+
     insert(table, data) {
         const rows = this.#database[table] ?? []
         
@@ -38,6 +44,19 @@ export class Database {
             this.#database[table] = [data]
         } else {
             this.#database[table].push(data)
+        }
+
+        this.#persist()
+    }
+
+    update(table, id, data) {
+        const rowIndex = this.#database[table].findIndex(row => row.id === id)
+
+        if (rowIndex > -1) {
+            this.#database[table][rowIndex] = {
+                ...data,
+                id,
+            }
         }
 
         this.#persist()
