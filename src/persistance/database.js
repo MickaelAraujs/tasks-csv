@@ -22,7 +22,7 @@ export class Database {
     select(table, search) {
         let rows = this.#database[table] ?? []
 
-        if (!search) return rows
+        if (!search || !Object.entries(search).length) return rows
 
         return rows.filter(row => {
             return Object.entries(search).some(([key, value]) => {

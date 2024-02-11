@@ -6,7 +6,17 @@ const database = new Database()
 
 class TaskController {
     index(request, response) {
-        const tasks = database.select('tasks', null)
+        const {
+            title,
+            description,
+        } = request.query
+
+        let queries = {}
+
+        if (title) queries.title = title
+        if (description) queries.description = description
+
+        const tasks = database.select('tasks', queries)
 
         return response
             .writeHead(200)
@@ -14,7 +24,6 @@ class TaskController {
     }
 
     create(request, response) {
-        return response.writeHead(201).end()
         const errors = getInvalidParameterErrors({
             title: request.body?.title, 
             description: request.body?.description,
