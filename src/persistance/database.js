@@ -19,6 +19,18 @@ export class Database {
         fs.writeFile(databasePath, JSON.stringify(this.#database))
     }
 
+    select(table, search) {
+        let rows = this.#database[table] ?? []
+
+        if (!search) return rows
+
+        return rows.filter(row => {
+            return Object.entries(search).some(([key, value]) => {
+                return row[key].toLowerCase().includes(value.toLowerCase())
+            })
+        })
+    }
+
     insert(table, data) {
         const rows = this.#database[table] ?? []
         

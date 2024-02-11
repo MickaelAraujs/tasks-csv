@@ -6,10 +6,15 @@ const database = new Database()
 
 class TaskController {
     index(request, response) {
+        const tasks = database.select('tasks', null)
 
+        return response
+            .writeHead(200)
+            .end(JSON.stringify(tasks))
     }
 
     create(request, response) {
+        return response.writeHead(201).end()
         const errors = getInvalidParameterErrors({
             title: request.body?.title, 
             description: request.body?.description,
