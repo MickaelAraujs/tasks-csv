@@ -4,7 +4,6 @@ import { setHeaders } from './middlewares/set-headers.js'
 import { setParamsAndQueries } from './middlewares/set-params-and-queries.js'
 import { routes } from './routes/routes.js'
 
-
 const server = http.createServer(async (request, response) => {
     await json(request, response)
     setHeaders(request, response)
